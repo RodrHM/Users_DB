@@ -1,0 +1,114 @@
+/* #contentLogin{
+    color: aliceblue;
+    background-color: #00292d;
+    width: 20em;
+    height: 27em;
+
+    display:grid;
+    grid-template-columns: 100%;
+    grid-template-rows:15% 85%;
+    
+    margin-left: 2em; 
+    z-index: 5;
+}
+
+#contentLogin::before{
+    content: '';
+
+    position: absolute;
+
+    border:solid;
+    border-top: 13.5em solid #00212d;
+    border-right: 10em solid transparent;
+    border-bottom: 13.5em solid transparent;
+    border-left: 10em solid #00212d;
+
+    width: 0em;
+    height: 0em;
+
+    z-index: 1;
+} */
+
+/* #contentLogin h2{
+    z-index: 3;
+} */
+
+#contentLogin form.login{
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 1fr 1fr 1fr;
+
+    justify-items: center;
+
+    /* z-index: 3; */
+}
+
+#contentLogin form.login .formLocker{
+    display: grid;
+    grid-template-rows: 30% 70%;
+    align-items: center;
+
+}
+#contentLogin form.login .formLocker .inputLogin{
+    width: 16em;
+    height: 2.5em;
+    /* justify-self: center; */
+    border-radius: 40px;
+    border-color: transparent;
+    background-color: rgba(255, 255, 255, 0.25);
+    
+    display: flex;
+    align-items: center;
+    /* gap: .75em; */
+}
+
+#contentLogin form.login .formLocker .inputLogin input{
+    background-color: transparent;
+    border-color: transparent;
+    outline: none;
+    margin: auto;
+}
+
+#contentLogin form.login .formLocker .inputLogin.right::before{
+    content: '';
+    height: 3.5em;
+    width: 3.5em;
+    position: relative;
+    border-radius: 100%;
+    
+    background-color: rgb(255, 255, 255);
+    background-image: url(../image/user-icon.png);
+    background-size: contain;
+}   
+
+#contentLogin form.login .formLocker .inputLogin.left::after{
+    content: '';
+    height: 3.5em;
+    width: 3.5em;
+    position: relative;
+    border-radius: 100%;
+    
+    background-color: rgb(255, 255, 255);
+    background-image: url(../image/icon3.png);
+    background-size: contain;
+}   
+
+#contentLogin form.login .formLocker .inputLogin input:focus{
+    border-color: transparent;
+    border-bottom: .2em solid red;
+}
+
+#contentLogin form.login .formLocker .inputLogin input::placeholder{
+    color: grey;
+}
+
+#contentLogin form.login button{
+
+    /* justify-self: center; */
+    align-self: center;
+    width: 17em;
+    height: 3em;
+
+    border: transparent;
+    border-radius: 20px;
+}

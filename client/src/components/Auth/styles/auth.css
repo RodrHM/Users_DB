@@ -1,0 +1,79 @@
+#contentLogin{
+    color: aliceblue;
+    background-color: #00292d;
+    width: 20em;
+    height: 27em;
+    border-radius: 20px;
+
+    display:grid;
+    grid-template-columns: 100%;
+    grid-template-rows:15% 85%;
+    
+    z-index: 5;
+
+    
+}
+
+/* Esto es para el diceño responsive */
+    /* position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; */
+
+#contentLogin::before{
+    content: '';
+    border-radius: 20px;
+
+    position: absolute;
+
+    border:solid;
+    border-top: 13.5em solid #00212d;
+    border-right: 10em solid transparent;
+    border-bottom: 13.5em solid transparent;
+    border-left: 10em solid #00212d;
+
+    width: 0em;
+    height: 0em;
+
+    z-index: 1;
+}
+
+#contentLogin h2{
+    z-index: 3;
+    align-self: center;
+}
+
+/* #contentLogin h2 span:hover{
+    cursor: pointer;
+    font-size: larger;
+    text-decoration: underline;
+} */
+
+#contentLogin h2 span{
+    font-size: larger;
+}
+#contentLogin h2 span.notMatch{
+    font-size: medium;
+    color: gray;
+    transition: .5s;
+}
+#contentLogin h2 span.notMatch:hover{
+    color: aliceblue;
+    cursor: pointer;
+    font-size: larger;
+    text-decoration: underline;
+}
+
+#contentLogin form{
+    z-index: 3;
+}
+
+/* #contentLogin .login{
+    display: none !important; 
+}
+#contentLogin .register{
+    display: none !important; 
+} */
