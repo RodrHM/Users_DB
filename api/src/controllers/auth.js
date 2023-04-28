@@ -21,7 +21,7 @@ const signUp = async (req, res)=>{
 // Combertimos los datos del usuario en un token junto con su _id y creamos la URL para completar el proseso de registro
         const data = { _id: newUser._id, username, email}
         const token = await generateToken(data, '24h')
-        const urlToken = 'http://localhost:3001' + '/api/user/confirmAccount?token=' + token
+        const urlToken = 'https://user-db-back-end.onrender.com' + '/api/user/confirmAccount?token=' + token
 //-----------------------------
 
 //  Enviamos un email con un boton con la ruta 'urlToken' para verificar que no es falso
