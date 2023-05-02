@@ -7,6 +7,7 @@ const UserModel = require('../models/userModel')
 
 async function verifyToken (req, res, next){
     try {
+        console.log(req.headers['authorization'])
         const token = req.headers['authorization']?.split(' ').at(1) // authorization
         if(!token) return res.status(403).json({error: 'No token provided'})
         console.log({token})
