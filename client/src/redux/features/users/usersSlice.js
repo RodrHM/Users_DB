@@ -5,7 +5,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const userSlice = createSlice({
     name: 'user',
     initialState:{
-        isAuthenticated:false,
+        isAuthenticated:!!localStorage.getItem('token')?.length,
         user:{},
         token:"",
         role:"",
@@ -13,7 +13,8 @@ export const userSlice = createSlice({
     },
     reducers:{
         confirmUser: (state, action)=>{ // Cambiar por 'confirmUser' u otra cosa
-            // console.log('Esto es confirmUser')
+            console.log('Esto es confirmUser')
+            console.log(!!action.payload.length)
             state.isAuthenticated = !!action.payload.length
         },
         newTokenValue: (state, action)=>{

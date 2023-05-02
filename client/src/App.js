@@ -12,9 +12,8 @@ function App() {
   const {isAuthenticated } = useSelector( state => state.user)
 
   useEffect(()=>{
-    // console.log('app ----------------------------------------------')
+    console.log('app ----------------------------------------------')
     const localToken = localStorage.getItem('token')
-
     if(localToken) dispatch(confirmToken())
     
   },[dispatch])
@@ -32,6 +31,7 @@ function App() {
           path='/dashboard' 
           element={<PrivateRoute isAuthenticated={isAuthenticated} component={<Dashboard /> } redirect='/'/>}
         />
+        {/* <Route exact path='/loader' element={<Loader/>} /> */}
         {/* <PrivateRoute isAuthenticated={true} exact path='/dashboard' component={<Dashboard/>}/> */}
       </Routes>
     </div>

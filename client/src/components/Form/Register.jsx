@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../../redux/features/users/usersActions";
 
-function Register ({setForm}){
+function Register ({setForm, toggleOverlay}){
     const dispatch = useDispatch()
 
     const [input, setInput] = useState({
@@ -44,7 +44,8 @@ function Register ({setForm}){
 
     const handlerSubmit = async (e)=>{
         e.preventDefault();
-
+        toggleOverlay(true)
+        // console.log('handlerSubmit')
         const messageError = []
         const errorUsername = handlerError(input.username, 'username')
         const errorEmail = handlerError(input.email, 'email')
@@ -63,7 +64,7 @@ function Register ({setForm}){
             const request = await dispatch(registerUser({username:input.username, email:input.email, password:input.password}))
             alert(request)
         }
-
+        toggleOverlay(false)
     }
     return (
         <form className="form" onSubmit={handlerSubmit}>

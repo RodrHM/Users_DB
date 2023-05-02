@@ -27,7 +27,8 @@ export const logInUser = (payload) => async (dispatch)=>{
     } catch (error) {
         // localStorage.removeItem('token')
         // return dispatch(confirmUser(''))
-        return error.response.data.error
+        console.log(error.response.data.error)
+        return {error: error.response.data.error}
     }
 }
 
@@ -48,13 +49,15 @@ export const getUser = () => async (dispatch)=>{
     try {
         const token = localStorage.getItem('token')
         const headers = {headers:{'Authorization':`Bearer ${token}`}}
-        
+        console.log({token, headers})
+
         const { data } = await axios.get('/user', headers)
-        
+        console.log(data)
         localStorage.setItem('token', data.token)
         dispatch(confirmUser(data.token))
         return dispatch(SendUser(data.user))
     } catch (error) {
+        console.log(error)
         localStorage.removeItem('token')
         return dispatch(confirmUser(''))
     }
@@ -82,6 +85,7 @@ export const confirmToken = () => async (dispatch)=>{
         const headers = {headers:{'Authorization':`Bearer ${token}`}}
 
         const { data } = await axios.get('/auth/confirmToken', headers)
+        console.log(data)
         localStorage.setItem('token', data.token)
         return dispatch(confirmUser(data.token))
     } catch (error) {

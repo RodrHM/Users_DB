@@ -9,9 +9,9 @@ async function verifyToken (req, res, next){
     try {
         const token = req.headers['authorization']?.split(' ').at(1) // authorization
         if(!token) return res.status(403).json({error: 'No token provided'})
-        
+        console.log({token})
         const decoded = jwt.verify(token, JWT_SECRET)
-
+        console.log({decoded})
         const user = await UserModel.findById(decoded._id, {passwordHash: 0});
         if (!user) return res.status(404).json({error: `User was not found in the database`});
 

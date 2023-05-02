@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { logInUser } from "../../redux/features/users/usersActions"
 
-function Login ({setForm}){
+function Login ({setForm, toggleOverlay}){
     const dispatch = useDispatch()
 
     const [input, setInput] = useState({
@@ -18,7 +18,7 @@ function Login ({setForm}){
     }
 
     const handlerError = async ()=>{
-        const messageError = {}
+        let messageError = {}
         if(!input.email.length) messageError.email = 'Missing email'
         if(!input.password.length) messageError.password = 'Missing eassword'
         if(!messageError.email && !messageError.password){
@@ -26,19 +26,21 @@ function Login ({setForm}){
                 email:input.email, 
                 password:input.password
             }))
+            console.log(aux)
             if(aux.error) messageError.other = aux.error
         }
         // console.log({messageError})
+        console.log(messageError)
         return messageError
     }
 
     const handlerSubmit = async (e)=>{
         e.preventDefault();
-
+        toggleOverlay(true)
         const messageError = await handlerError()
         
-        // console.log(Object.values(messageError))
-
+        console.log(Object.values(messageError))
+        toggleOverlay(false)
         setError(Object.values(messageError))
     }
     return (
