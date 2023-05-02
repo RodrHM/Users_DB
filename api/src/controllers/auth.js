@@ -60,7 +60,8 @@ const signIn = async (req, res)=>{
 const confirmToken = async (req, res)=>{
     try {
         // Agregar un middeware que actualize el token si se hizo una peticion 1h antes de que se vensa el token actual
-        const token = req.headers['authorization']?.split(' ').at(1)
+        if (!req.headers.authorization) throw new Error('missing req.headers.authorization')
+        const token = req.headers['authorization'].split(' ')[1]
 
         return res.status(200).json({token})
     } catch (error) {
