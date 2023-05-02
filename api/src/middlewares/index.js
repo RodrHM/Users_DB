@@ -7,7 +7,8 @@ const UserModel = require('../models/userModel')
 
 async function verifyToken (req, res, next){
     try {
-        console.log(req.headers['authorization'])
+        console.log('Esto es verifyToken')
+        console.log(req.headers)
         if (!req.headers.authorization) {
             console.log('!req.headers.authorization')
             return res.status(403).json({error: 'missing token'})
@@ -29,7 +30,9 @@ async function verifyToken (req, res, next){
 
 async function updateToken (req, res, next){
     try {
-        const token = req.headers['authorization']?.split(' ').at(1)
+        console.log('Esto es updateToken')
+        if (!req.headers.authorization) throw new Error('missing req.headers.authorization')
+        const token = req.headers['authorization'].split(' ')[1]
         if(!token) return res.status(403).json({error: 'No token provided'})
         const { iat, exp, _id, username, email } = jwt.verify(token, JWT_SECRET)
         const newDate = +(Date.now()/1000).toFixed(0)
@@ -41,9 +44,9 @@ async function updateToken (req, res, next){
         req.token = token
         if(newDate>minRange && newDate<maxRange) req.token = await generateToken({_id, username, email}, '4h')
 
-        next();
+        return next();
     } catch (error) {
-        res.status(400).json({error: error.message})
+        return res.status(400).json({error: error.message})
     }
 }
 
