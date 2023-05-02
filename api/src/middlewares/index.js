@@ -7,17 +7,12 @@ const UserModel = require('../models/userModel')
 
 async function verifyToken (req, res, next){
     try {
-        console.log('Esto es verifyToken')
-        console.log(req.headers)
         if (!req.headers.authorization) {
-            console.log('!req.headers.authorization')
             return res.status(403).json({error: 'missing token'})
         }
         const token = req.headers['authorization'].split(' ')[1] // authorization
         if(!token) return res.status(403).json({error: 'No token provided'})
-        console.log({token})
         const {_id} = jwt.verify(token, JWT_SECRET)
-        console.log({_id})
         const user = await UserModel.findById(_id, {passwordHash: 0});
         if (!user) return res.status(404).json({error: `User was not found in the database`});
 
@@ -30,7 +25,6 @@ async function verifyToken (req, res, next){
 
 async function updateToken (req, res, next){
     try {
-        console.log('Esto es updateToken')
         if (!req.headers.authorization) throw new Error('missing req.headers.authorization')
         const token = req.headers['authorization'].split(' ')[1]
         if(!token) return res.status(403).json({error: 'No token provided'})
