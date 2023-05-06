@@ -25,8 +25,8 @@ const signUp = async (req, res)=>{
         const token = await generateToken(data, '24h')
         const route = `/verification-module?case=confirmAccount&&token=${token}`
         // const urlToken = 'https://user-db-back-end.onrender.com' + '/api/user/confirmAccount?token=' + token
-        // const urlToken = 'https://users-db-six.vercel.app' + route
-        const urlToken = 'http://localhost:3000' + route
+        const urlToken = 'https://users-db-six.vercel.app' + route
+        // const urlToken = 'http://localhost:3000' + route
 //-----------------------------
 
 //  Enviamos un email con un boton con la ruta 'urlToken' para verificar que no es falso
@@ -103,8 +103,8 @@ const tokenRecoverPassword = async (req, res)=>{
 
         const tokenModPass = await generateToken({_id, email, moduleCase}, '1h')
         const route = `/verification-module?case=${moduleCase}&&token=${tokenModPass}`
-        // const urlToken = 'https://users-db-six.vercel.app' + route
-        const urlToken = 'http://localhost:3000' + route
+        const urlToken = 'https://users-db-six.vercel.app' + route
+        // const urlToken = 'http://localhost:3000' + route
 
         const info = {
             from:'cosme.pruevalito@gmail.com',
