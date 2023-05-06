@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 
 export function useAuth (){
@@ -12,7 +12,6 @@ export function useAuth (){
     const getUser = async ()=> {
         try {
             const { data } = await axios.get('/user', headers)
-            // console.log(data)
 
             setUser(data)
             isAuthenticated(true)
@@ -22,7 +21,6 @@ export function useAuth (){
             setUser({})
             setIsAuthenticated(false)
 
-            // console.log(error.message)
             return {}
         }
     }

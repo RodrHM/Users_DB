@@ -20,12 +20,10 @@ function Login () {
 
 
     const handlerEmail = ({target})=>{
-        // console.log(target.value)       //  BORRAR
         setEmail(target.value)
     }
 
     const handlerPassword = ({target})=>{
-        // console.log(target.value)       //  BORRAR
         setPassword(target.value)
     }
 
@@ -42,12 +40,10 @@ function Login () {
         
         const controlErrorEmail = regex.email.test(email)
         let sendErrorEmail = ''
-        // console.log(controlErrorEmail)        //  BORRAR
         if(!controlErrorEmail) sendErrorEmail = 'syntax errors'
 
         const controlErrorPassword = regex.password.test(password)
         let sendErrorPassword = ''
-        // console.log(controlErrorPassword)  //  BORRAR
         if(!controlErrorPassword) sendErrorPassword = 'At least 8 characters and must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number.'
 
         setError({...error, 
@@ -56,7 +52,6 @@ function Login () {
         })
 
         if(!sendErrorEmail.length && !sendErrorPassword.length){
-            // console.log({email:email, password:password})
             dispatch(logInUser({email:email, password:password}))
         }
     }

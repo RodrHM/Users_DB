@@ -37,7 +37,6 @@ function Card ({username, email}){
             }
             if(!str.length) throw new Error(`Please complete the ${locker} field`)
             if(!regex[locker].test(str)) throw new Error(messageError[locker])
-            // console.log(!regex[locker].test(str))
             return ''
         } catch (err) {
             return err.message
@@ -56,12 +55,10 @@ function Card ({username, email}){
         if(errorEmail) messageError.push(errorEmail)
         if(errorPassword) messageError.push(errorPassword)
 
-        // console.log({messageError})
 
         setError(messageError)
 
         if(!errorUsername.length && !errorEmail.length && !errorPassword.length) {
-            // console.log({username:input.username, email:input.email, password:input.password})
             const request = await dispatch(registerUser({username:input.username, email:input.email, password:input.password}))
             alert(request)
         }

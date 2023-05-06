@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { getUser, logOutUser } from "../../redux/features/users/usersActions"
 import UserProfile from "./UserProfile";
+import DeletAccountButton from './DeletAccountButton.jsx'
 
 function Dashboard (){
     const dispatch = useDispatch()
@@ -18,6 +19,7 @@ function Dashboard (){
     return (
         <div>
             <button onClick={handlerLogOut}>Log-Out</button>
+            <DeletAccountButton/>
             {Object.values(user).length?
             <UserProfile username={user.username} email={user.email} />
             :    

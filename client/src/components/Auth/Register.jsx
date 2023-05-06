@@ -53,9 +53,6 @@ function Register (){
         const errorEmail = handlerError(input.email, 'email')
         const errorPassword = handlerError(input.password, 'password')
 
-        // console.log(error)
-        // console.log({errorUsername, errorEmail, errorPassword})
-
         setError({...error,
             username:errorUsername,
             email:errorEmail,
@@ -63,7 +60,6 @@ function Register (){
         })
 
         if(!errorUsername.length && !errorEmail.length && !errorPassword.length) {
-            // console.log({username:input.username, email:input.email, password:input.password})
             dispatch(registerUser({username:input.username, email:input.email, password:input.password}))
         }
     }
@@ -81,9 +77,6 @@ function Register (){
                         value={input.username}/>
                 </div>
                 <p hidden={!''}>{''}</p>
-                {/* <div class="error-bubble">
-                <span class="error-message">¡Error! El campo es obligatorio</span>
-            </div> */}
             </div>
             <div className='formLocker'>
                 <label htmlFor="">email: </label>
@@ -96,9 +89,6 @@ function Register (){
                         value={input.email}/>
                 </div>
                 <p hidden={!''}>{''}</p>
-                {/* <div class="error-bubble">
-                <span class="error-message">¡Error! El campo es obligatorio</span>
-            </div> */}
             </div>
             <div className='formLocker'>
                 <label htmlFor="">password: </label>
@@ -111,9 +101,6 @@ function Register (){
                         value={input.password}/>
                 </div>
                 <p hidden={!''}>{''}</p>
-                {/* <div class="error-bubble">
-                <span class="error-message">¡Error! El campo es obligatorio</span>
-            </div> */}
             </div>
             <button type="submit">REGISTER</button>
         </form>

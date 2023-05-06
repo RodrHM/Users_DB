@@ -12,16 +12,15 @@ export const userSlice = createSlice({
         errors:{}
     },
     reducers:{
-        confirmUser: (state, action)=>{ // Cambiar por 'confirmUser' u otra cosa
-            console.log('Esto es confirmUser')
-            console.log(!!action.payload.length)
+        confirmUser: (state, action)=>{
+            // console.log('Esto es confirmUser')
             state.isAuthenticated = !!action.payload.length
         },
         newTokenValue: (state, action)=>{
             // console.log('Esto es newTokenValue')
             state.token = action.payload
         },
-        SendUser: (state, action)=>{ // Cambiar por 'confirmUser' u otra cosa
+        SendUser: (state, action)=>{
             // console.log('Esto es SendUser')
             state.user = action.payload
         },

@@ -2,7 +2,7 @@ require('dotenv').config()
 const {NODEMAILER_USER, NODEMAILER_PASS} = process.env
 const nodemailer = require('nodemailer');
 const registerTempate = require('../htmlTemplates/registerTemplate');
-const forgotPassword = require('../htmlTemplates/forgotPassword');
+const forgotPassword = require('../htmlTemplates/forgotPasswordTemplate');
 
 const createTrans = ()=>{
     const transport = nodemailer.createTransport({

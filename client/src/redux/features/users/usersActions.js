@@ -6,7 +6,6 @@ import {
 
 export const registerUser = (payload) => async (dispatch)=>{
     try {
-        // console.log('Esto es registerUser')
         //  payload = { username, email, password }
         const {data} = await axios.post("/auth/register", payload)
         // data = { username, email, token }
@@ -25,9 +24,6 @@ export const logInUser = (payload) => async (dispatch)=>{
         localStorage.setItem('token', data.token)
         return dispatch(confirmUser(data.token))
     } catch (error) {
-        // localStorage.removeItem('token')
-        // return dispatch(confirmUser(''))
-        console.log(error.response.data.error)
         return {error: error.response.data.error}
     }
 }
@@ -49,17 +45,25 @@ export const getUser = () => async (dispatch)=>{
     try {
         const token = localStorage.getItem('token')
         const headers = {headers:{'Authorization':`Bearer ${token}`}}
-        console.log({token, headers})
-
         const { data } = await axios.get('/user', headers)
-        console.log(data)
+        
         localStorage.setItem('token', data.token)
         dispatch(confirmUser(data.token))
         return dispatch(SendUser(data.user))
     } catch (error) {
-        console.log(error)
         localStorage.removeItem('token')
         return dispatch(confirmUser(''))
+    }
+}
+
+export const confirmAccount = async (token)=>{
+    try {
+        const headers = {headers:{'Authorization':`Bearer ${token}`}}
+        const { data } = await axios.get('/user/confirmAccount', headers)
+
+        return data
+    } catch (error) {
+        return error.response.data
     }
 }
 
@@ -83,9 +87,8 @@ export const confirmToken = () => async (dispatch)=>{
     try {
         const token = localStorage.getItem('token')
         const headers = {headers:{'Authorization':`Bearer ${token}`}}
-
         const { data } = await axios.get('/auth/confirmToken', headers)
-        console.log(data)
+
         localStorage.setItem('token', data.token)
         return dispatch(confirmUser(data.token))
     } catch (error) {
@@ -94,10 +97,64 @@ export const confirmToken = () => async (dispatch)=>{
     }
 }
 
-// export const getUser = () => async (dispatch)=>{
-//     try {
+export const tokenChangePassword = (body) => async (dispatch)=>{
+    try {
+        const token = localStorage.getItem('token')
+        const headers = {headers:{'Authorization':`Bearer ${token}`}}
+        const {data} = await axios.post("/auth/changePassword", body, headers)
+        // data = { username, email, token }
         
-//     } catch (error) {
-//         return dispatch()
-//     }
-// }
+        return data
+    } catch (error) {
+        return error.response.data
+    }
+}
+
+export const changePassword = ({body, token}) => async (dispatch)=>{
+    try {
+        // const body = { moduleCase:'changePassword'or'forgotPassword' }
+        const headers = {headers:{'Authorization':`Bearer ${token}`}}
+        const {data} = await axios.put("/user/changePassword", body, headers)
+        // data = { username, email, token }
+
+        return data
+    } catch (error) {
+        return error.response.data
+    }
+}
+
+export const tokenForgotPassword = (body) => async (dispatch)=>{
+    try {
+        // const body = {email, moduleCase}
+        const {data} = await axios.post("/auth/forgotPassword", body)
+
+        return data
+    } catch (error) {
+        return error.response.data
+    }
+}
+
+export const tokenDeleteUser = (body) => async (dispatch)=>{
+    try {
+        // const body = {email, moduleCase}
+        const token = localStorage.getItem('token')
+        const headers = {headers:{'Authorization':`Bearer ${token}`}}
+        const {data} = await axios.post("/auth/desactiveAccount", body, headers)
+        // data = {}
+
+        return data
+    } catch (error) {
+        return error.response.data
+    }
+}
+
+export const DeleteUser = async (token)=>{
+    try {
+        const headers = {headers:{'Authorization':`Bearer ${token}`}}
+        const {data} = await axios.delete("/user/desactiveAccount", headers)
+        
+        return data
+    } catch (error) {
+        return error.response.data
+    }
+}

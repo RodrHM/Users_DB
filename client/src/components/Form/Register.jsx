@@ -35,7 +35,6 @@ function Register ({setForm, toggleOverlay}){
             }
             if(!str.length) throw new Error(`Please complete the ${locker} field`)
             if(!regex[locker].test(str)) throw new Error(messageError[locker])
-            // console.log(!regex[locker].test(str))
             return ''
         } catch (err) {
             return err.message
@@ -45,7 +44,6 @@ function Register ({setForm, toggleOverlay}){
     const handlerSubmit = async (e)=>{
         e.preventDefault();
         toggleOverlay(true)
-        // console.log('handlerSubmit')
         const messageError = []
         const errorUsername = handlerError(input.username, 'username')
         const errorEmail = handlerError(input.email, 'email')
@@ -55,12 +53,10 @@ function Register ({setForm, toggleOverlay}){
         if(errorEmail) messageError.push(errorEmail)
         if(errorPassword) messageError.push(errorPassword)
 
-        // console.log({messageError})
 
         setError(messageError)
 
         if(!errorUsername.length && !errorEmail.length && !errorPassword.length) {
-            // console.log({username:input.username, email:input.email, password:input.password})
             const request = await dispatch(registerUser({username:input.username, email:input.email, password:input.password}))
             alert(request)
         }

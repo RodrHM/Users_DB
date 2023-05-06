@@ -1,8 +1,8 @@
 import { useState } from "react"
 import { useDispatch } from "react-redux"
-import { logInUser } from "../../redux/features/users/usersActions"
+import { logInUser, tokenChangePassword } from "../../redux/features/users/usersActions"
 
-function Login ({setForm, toggleOverlay}){
+function Login ({setForm, toggleOverlay, setShowForgotPassword}){
     const dispatch = useDispatch()
 
     const [input, setInput] = useState({
@@ -17,6 +17,15 @@ function Login ({setForm, toggleOverlay}){
         setInput({...input, [locker]:value})
     }
 
+    const handlerForgotPassword = async ()=>{
+        setShowForgotPassword(true)
+        
+        // const {url} = await dispatch(tokenChangePassword({moduleCase:'forgotPassword'}))
+        // if(url) alert('Se a enviado un mail para cambiar la contraseña.')
+
+        // setShowForgotPassword(false)
+    }
+
     const handlerError = async ()=>{
         let messageError = {}
         if(!input.email.length) messageError.email = 'Missing email'
@@ -26,11 +35,8 @@ function Login ({setForm, toggleOverlay}){
                 email:input.email, 
                 password:input.password
             }))
-            console.log(aux)
             if(aux.error) messageError.other = aux.error
         }
-        // console.log({messageError})
-        console.log(messageError)
         return messageError
     }
 
@@ -39,7 +45,6 @@ function Login ({setForm, toggleOverlay}){
         toggleOverlay(true)
         const messageError = await handlerError()
         
-        console.log(Object.values(messageError))
         toggleOverlay(false)
         setError(Object.values(messageError))
     }
@@ -76,7 +81,7 @@ function Login ({setForm, toggleOverlay}){
                 <button className="button1" type="submit">Login</button>
                 <button className="button1" onClick={()=>setForm(false)}>Sign Up</button>
             </div>
-            <button className="button3">Forgot Password</button>
+            <button className="button3" onClick={handlerForgotPassword}>Forgot Password</button>
         </form>
     )
 }

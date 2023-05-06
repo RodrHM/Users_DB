@@ -110,6 +110,25 @@
     padding: 0;
   }
 
+  .crose{
+    position: absolute;
+    background-color: #252525;
+    color: #d3d3d3;
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 100%;
+    transition: .5s;
+    cursor: pointer;
+    align-self: flex-end;
+    margin-top: 1em;
+    transform: translateX(1em);
+  }
+  .crose:hover{
+    background-color: red;
+    transform: scale(1.2);
+    transform: translateX(1em);
+  }
+
   @media (max-width:600px) {
     .form{
       width: 70%;

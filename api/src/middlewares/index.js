@@ -7,15 +7,14 @@ const UserModel = require('../models/userModel')
 
 async function verifyToken (req, res, next){
     try {
-        if (!req.headers.authorization) {
-            return res.status(403).json({error: 'missing token'})
-        }
+        if (!req.headers.authorization) return res.status(403).json({error: 'missing token'})
         const token = req.headers['authorization'].split(' ')[1] // authorization
         if(!token) return res.status(403).json({error: 'No token provided'})
-        const {_id} = jwt.verify(token, JWT_SECRET)
+        const {_id, moduleCase} = jwt.verify(token, JWT_SECRET)
         const user = await UserModel.findById(_id, {passwordHash: 0});
         if (!user) return res.status(404).json({error: `User was not found in the database`});
-
+        //  moduleCase es un valor especial para el token para aespecificar su tipo de uso
+        if(moduleCase) req.moduleCase = moduleCase
         req.user = user
         return next();
     } catch (error) {
@@ -34,7 +33,7 @@ async function updateToken (req, res, next){
         const range = (exp-iat)/2
         const minRange = range + iat;
         const maxRange = exp;
-        // console.log({range, minRange, maxRange, newDate})
+
         req.token = token
         if(newDate>minRange && newDate<maxRange) req.token = await generateToken({_id, username, email}, '4h')
 
@@ -72,9 +71,7 @@ async function checkDuplicateUsername (req, res, next){
 
 async function verifyUser (req, res, next){
     try {
-        // console.log('verifyUser------------------------')
         const { email, password } = req.body
-        // console.log({ email, password })
         if(!email || !password){
             return res.status(400).json({error:'important data is missing'})
         }
@@ -88,8 +85,6 @@ async function verifyUser (req, res, next){
         
         next();
     } catch (error) {
-        // console.log('verifyUser------------------------')
-        // console.log({error: error.message})
         res.status(404).json({error: error.message})
     }
 }

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getUser, modifyUser } from "../../redux/features/users/usersActions";
+import { getUser, modifyUser, tokenChangePassword } from "../../redux/features/users/usersActions";
 import "./styles/btnCloudCrose.css"
 import './styles/UserProfile.css'
+import { Navigate } from "react-router-dom";
 
 function UserProfile() {
   const dispatch = useDispatch();
@@ -122,6 +123,14 @@ function UserProfile() {
     setDisable(form);
   };
 
+  const handlerPassword = async ()=>{
+    // LOADING TRUE
+    const {error, url} = await dispatch(tokenChangePassword({moduleCase:'changePassword'}))
+    if(error) alert(error)
+    if(url) window.location.href = url;
+    // LOADING FALSE
+  }
+
   const lockers = [
     {label: "Username: ",form: "username",placeholder: "Only words",required: "no acepta caracteres especialesacepta caracteres especiales",},
     { label: "E-mail: ", form: "email", placeholder: "fulano@gmail.com", required: "El email es invalido",},
@@ -173,7 +182,7 @@ function UserProfile() {
                 type="button"
                 // id={`passwordField`}
                 value={'Change Password'}
-                onClick={(e)=>{alert('Falta implementar funcionalidad')}}
+                onClick={handlerPassword}
                 className='brnField'
               />
             </div>

@@ -4,6 +4,8 @@ const { generateToken } = require('.')
 const UserModel = require('../models/userModel')
 const { sendMail } = require('./emailer')
 const registerTempate = require('../htmlTemplates/registerTemplate')
+const forgotPasswordTemplate = require('../htmlTemplates/forgotPasswordTemplate')
+
 
 const signUp = async (req, res)=>{
     try {
@@ -19,9 +21,12 @@ const signUp = async (req, res)=>{
 //-----------------------------
 
 // Combertimos los datos del usuario en un token junto con su _id y creamos la URL para completar el proseso de registro
-        const data = { _id: newUser._id, username, email}
+        const data = { _id: newUser._id, username, email, moduleCase:'confirmAccount'}
         const token = await generateToken(data, '24h')
-        const urlToken = 'https://user-db-back-end.onrender.com' + '/api/user/confirmAccount?token=' + token
+        const route = `/verification-module?case=confirmAccount&&token=${token}`
+        // const urlToken = 'https://user-db-back-end.onrender.com' + '/api/user/confirmAccount?token=' + token
+        // const urlToken = 'https://users-db-six.vercel.app' + route
+        const urlToken = 'http://localhost:3000' + route
 //-----------------------------
 
 //  Enviamos un email con un boton con la ruta 'urlToken' para verificar que no es falso
@@ -43,11 +48,10 @@ const signUp = async (req, res)=>{
 const signIn = async (req, res)=>{
     try {
         const { email, password } = req.body
-        // console.log({ email, password })
+
         if(!email || !password) throw new Error('important data is missing')
         const {_id, username} = await UserModel.findOne({email})
 
-        // console.log({email, password, _id})
         const data = { _id, username, email }
         const token = await generateToken(data, '4h')
 
@@ -69,8 +73,72 @@ const confirmToken = async (req, res)=>{
     }
 }
 
+const tokenModifyPassword = async (req, res)=>{
+    try {
+        const {moduleCase} = req.body
+        const {_id, email} = req.user
+        const token = req.token
+        if(!moduleCase) throw new Error('missing moduleCase')
+        if(moduleCase!=='changePassword') throw new Error('Not func')
+
+        const tokenModPass = await generateToken({_id, email, moduleCase}, '1h')
+
+        const route = `/verification-module?case=${moduleCase}&&token=${tokenModPass}`
+        
+        return res.status(200).json({token, url:route})
+    } catch (error) {
+        return res.status(400).json({error: error.message})
+    }
+}
+
+const tokenRecoverPassword = async (req, res)=>{
+    try {
+        const {email, moduleCase} = req.body
+        if(!moduleCase) throw new Error('missing moduleCase')
+        if(moduleCase!=='forgotPassword') throw new Error('Not func')
+        if(!email) throw new Error('missing email')
+
+        const {_id} = await UserModel.findOne({email})
+        if(!_id) throw new Error('invalid email')
+
+        const tokenModPass = await generateToken({_id, email, moduleCase}, '1h')
+        const route = `/verification-module?case=${moduleCase}&&token=${tokenModPass}`
+        // const urlToken = 'https://users-db-six.vercel.app' + route
+        const urlToken = 'http://localhost:3000' + route
+
+        const info = {
+            from:'cosme.pruevalito@gmail.com',
+            to:email,
+            subject:'Recuperar Contraseña',
+            html:forgotPasswordTemplate(urlToken)
+        }
+        await sendMail(info)
+        //  https://user-db-back-end.onrender.com
+        return res.status(200).json({message:'Se a enviado un mail para cambiar su contraseña.'})
+    } catch (error) {
+        return res.status(400).json({error: error.message})
+    }
+}
+
+const tokenDesactiveAccount = async (req, res)=>{
+    try {
+        const {_id, email} = req.user
+
+        const tokenModPass = await generateToken({_id, email, moduleCase:'desactiveAccount'}, '1h')
+
+        const route = `/verification-module?case=desactiveAccount&&token=${tokenModPass}`
+        
+        return res.status(200).json({url:route})
+    } catch (error) {
+        return res.status(400).json({error: error.message})
+    }
+}
+
 module.exports = {
     signUp,
     signIn,
     confirmToken,
+    tokenModifyPassword,
+    tokenRecoverPassword,
+    tokenDesactiveAccount,
 }

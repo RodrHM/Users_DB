@@ -6,13 +6,13 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { confirmToken } from './redux/features/users/usersActions';
 import Form from './components/Form/Form';
+import VerificationModule from './components/VerificationModule/VerificationModule';
 
 function App() {
   const dispatch = useDispatch()
   const {isAuthenticated } = useSelector( state => state.user)
 
   useEffect(()=>{
-    console.log('app ----------------------------------------------')
     const localToken = localStorage.getItem('token')
     if(localToken) dispatch(confirmToken())
     
@@ -31,8 +31,10 @@ function App() {
           path='/dashboard' 
           element={<PrivateRoute isAuthenticated={isAuthenticated} component={<Dashboard /> } redirect='/'/>}
         />
-        {/* <Route exact path='/loader' element={<Loader/>} /> */}
-        {/* <PrivateRoute isAuthenticated={true} exact path='/dashboard' component={<Dashboard/>}/> */}
+        <Route
+          exact
+          path='/verification-module'
+          element={<VerificationModule />}/>
       </Routes>
     </div>
   );
